@@ -455,6 +455,28 @@ describe('tokenizer JSON', function () {
         
         done();
     });
+
+    it("should succeed for a user's file", (done: MochaDone) => {
+        // this.timeout(1000);
+
+        let tp = path.join(__dirname, 'tokenizer', 'test-userFile.js');
+        let tr: ttm.MockTestRunner = new ttm.MockTestRunner(tp);
+
+        tr.run();
+        if (debug) {
+            console.log(tr.stdout);
+        }
+        if (tr.stderr) {
+           done(tr.stderr);
+           return;
+        }
+
+        assert(tr.succeeded, 'should have succeeded');
+        assert.equal(tr.warningIssues.length, 0, "should have no warnings");
+        assert.equal(tr.errorIssues.length, 0, "should have no errors");
+
+        done();
+    });
 });
 
 describe('coverageGate', function () {
